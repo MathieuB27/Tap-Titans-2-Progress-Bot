@@ -1,4 +1,4 @@
-﻿// -  Tap Titans 2 AdvancedClickBot by Tune389 [ v1.5 dev 3 ]
+// -  Tap Titans 2 AdvancedClickBot by Tune389 [ v1.5 dev 3 ]
 
 SCREEN_SIZE: 480x800
 
@@ -42,7 +42,7 @@ var #orderLevelMaster 2
 var #orderLevelSkills 3
 
 // ----------- Actions ----------- [ ClanQuest ]
-var #enableClanQuest 0
+var #enableClanQuest 1
 
 //fight the clan boss with max possible hits
 var #clanQuestRunsPerReadyUp 1
@@ -57,7 +57,7 @@ var #skillIntensity 2
 //; 2 = (default)
 //; 2-99 = Multiple level ups
 
-var #maxOutHero 2
+var #maxOutHero 1
 //; 1 = Damon (Mage)
 //; 2 = Nohni (Melee)
 //; 3 = Finn (Ranged)
@@ -114,14 +114,14 @@ var #startBossSecondarySkill 0
 //; 6 = shadow clone
 
 // ----------- Actions ----------- [ Prestige ]
-var #enableAutoprestige 0
-var #prestigeAfterXMinutes 45
+var #enableAutoprestige 1
+var #prestigeAfterXMinutes 80
 
 // ----------- Developer / Expert
 var #maxHitCount 9999999
 
 //show current script time
-var #showCurrentTime 0
+var #showCurrentTime 1
 
 //if you wanna sync the script time with real time you can play around with this value
 var #timeScaleAddition 17
@@ -221,6 +221,13 @@ var #resultClanQuest 0
 	endif
 	
 	if #showCurrentTime == 1 and #resultUpdateTime == 0
+		// ClanShip
+		toast Clan Ship
+		touchPress 1 80 105
+		touchPress 1 80 105
+		touchPress 1 80 105
+		touchPress 1 80 105
+		sleep 400
 		toast #minutes:#seconds
 	endif
 	
@@ -424,7 +431,7 @@ goto :start
 	if #checkBossFight == 1
 		getColor #color1 139 85
 	endif
-	
+
 	if #checkBossFight == 1 and #color1 == #colorWhite
 		touchPress 0 #menuCloseX #menuCloseY
 		toast skipping actions - bossfight in progress
@@ -699,6 +706,30 @@ goto :checkSkillsFinish
 		touchUp 0
 		sleep 200
 		#time = #time + 450
+		sleep 100
+		touchDown 0 466 730
+		sleep 250
+		touchUp 0
+		sleep 200
+		#time = #time + 450
+		sleep 100
+		touchDown 0 466 730
+		sleep 250
+		touchUp 0
+		sleep 200
+		#time = #time + 450
+		sleep 100
+		touchDown 0 466 730
+		sleep 250
+		touchUp 0
+		sleep 200
+		#time = #time + 450
+		sleep 100
+		touchDown 0 466 730
+		sleep 250
+		touchUp 0
+		sleep 200
+		#time = #time + 450
 	endif
 	
 	if #justUnlockSkills == 0
@@ -849,18 +880,28 @@ goto :levelHeroes
 
 	#loopDetectionCount = #loopDetectionCount + 1
 
-	if #maxOutHero == 1
+	//if #maxOutHero == 1
 		touchDown 1 466 530
-	elseif #maxOutHero == 2
+		sleep 100
+		touchUp 1
+		sleep 40
+	
+	//elseif #maxOutHero == 2
 		touchDown 1 466 600
-	elseif #maxOutHero == 3
+		sleep 100
+		touchUp 1
+		sleep 40
+	
+	//elseif #maxOutHero == 3
 		touchDown 1 466 680
-	endif		
+	//endif		
 	
 	sleep 100
 	touchUp 1
 	sleep 40
-		
+	
+	
+
 	if #loopDetectionCount == #mainHeroRoundTripLevelUps and #levelMainHero == 1
 		#levelMainHero = 0
 		touchPress 0 #menuCloseX #menuCloseY
@@ -1057,6 +1098,7 @@ goto :runActions
 		touchPress 0 30 165
 		sleep #shipDelay
 		#time = #time + #shipDelay
+		toast CLAN SHIP
 	endif
 		
 goto :pressSkills
@@ -1091,23 +1133,35 @@ goto :pressSkills
 
 // ----------- RANDOM ATTACK
 :randomTouch
-	rand #randomX 60 415
-	rand #randomY 160 420
+rand #randomX 60 415
+rand #randomY 160 420
 
-	//equipment stacking
-	if #randomX > 280 and #randomX < 430 and #randomY > 300
-		goto :randomTouch
-	endif
+//equipment stacking
+if #randomX > 280 and #randomX < 430 and #randomY > 300
+	goto :randomTouch
+endif
+
+//No Thanks to Fairies Popups
+var #noThanksColor 0
+getColor #noThanksColor 134 620
+if #noThanksColor == 688378
+touchDown 0 134 620
+sleep #btnDelay
+#time = #time + #btnDelay
+touchUp 0
+sleep #btnDelay
+#time = #time + #btnDelay
+endif
 	
-	//prevent hero story window
-	if #randomY > 184 and #randomY < 233 and #randomX > 403
-		goto :randomTouch
-	endif
-	
-	if #enableTapping == 1
-		touchDown 0 #randomX #randomY
-		touchUp 0
-	endif
-	sleep #hitDelay
-	#time = #time + #hitDelay
+//prevent hero story window
+if #randomY > 184 and #randomY < 233 and #randomX > 403
+	goto :randomTouch
+endif
+
+if #enableTapping == 1
+	touchDown 0 #randomX #randomY
+	touchUp 0
+endif
+sleep #hitDelay
+#time = #time + #hitDelay
 goto :start
